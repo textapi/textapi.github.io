@@ -1,114 +1,256 @@
 ---
-layout: landing
+layout: default
 ---
-<style>
-.jumbotron{
-  margin-bottom:0rem !important;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-.fluffy{
-  margin-top:12px;
-  margin-bottom:12px;
-}
-.divider{
-  border-bottom: 1px solid #4078c0;
-  margin-bottom: 30px;
-}
-#browser{
-  max-height:500px;
-  width:100%;
-  margin-top:-110px;
-}
-@media (max-width: 978px) {
-.fluffy{
-  display:none;
-}
-@media (max-width: 692px){
-  .sm-full{
-    width:100% !important;
-  }
-  .sm-hide{
-    display:none !important;
-  }
-  #browser{
-    margin-top:0;
-  }
-}
-</style>
-<div class="jumbotron">
-  <div class="container">
-    <h1 class='sm-hide'>TextAPI</h1>
-    <div class="columns">
-      <div style='margin-bottom: 10px;' class="one-third column sm-full">
-        <p>The power of text extraction, manipulation, and analysis in an API.</p>
+<section class="hero hero-dark">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <h1>Your text-processing<br>Swiss&nbsp;Army&nbsp;knife.</h1>
+      <p class="lede">Extract article text from any URL, tag named entities,
+      score sentiment, and answer questions — four NLP capabilities behind one
+      clean, language-agnostic API.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ site.store_url }}" target="_blank" rel="noopener">Get an API key &rarr;</a>
+        <a class="btn btn-ghost-dark" href="{{ site.docs_url }}" target="_blank" rel="noopener">Read the docs</a>
+      </div>
+      <p class="hero-note">Metered billing through the
+      <a href="{{ site.listing_url }}" target="_blank" rel="noopener">APIDirectory</a> storefront —
+      pay per request, no plans, cancel anytime.</p>
+    </div>
+    <div class="hero-demo">
+      <div class="demo-card">
+        <div class="demo-head">Live demo — entities &amp; sentiment</div>
+        <form id="demo-form" class="demo-input-row">
+          <input id="demo-input" type="text" maxlength="280" spellcheck="false"
+                 value="Apple is thrilled to be buying a promising U.K. startup for $1 billion"
+                 aria-label="Text to analyze">
+          <button type="submit" class="btn btn-primary" id="demo-btn">Analyze</button>
+        </form>
+        <div id="demo-out">
+          <p class="demo-text">
+            <mark class="ent ent-org">Apple<span>ORG</span></mark> is thrilled to be buying a promising
+            <mark class="ent ent-gpe">U.K.<span>GPE</span></mark> startup for
+            <mark class="ent ent-money">$1 billion<span>MONEY</span></mark>
+          </p>
+          <div class="demo-sentiment">
+            <span class="sent-chip sent-pos">Positive</span>
+            <span class="sent-detail">compound 0.68 &middot; pos 0.34 &middot; neu 0.66 &middot; neg 0.00</span>
+          </div>
+        </div>
+        <p class="demo-note" id="demo-note">Runs against the real API at use.textapi.com — no key needed for this demo.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <a href="https://rapidapi.com/textapi/api/textapi" class="btn btn-reverse">
-          See it in action
-        </a>
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">One key, four capabilities</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <span class="endpoint">GET /text</span>
+        <h3>Extract text from webpages</h3>
+        <p>Point it at a URL and get back the clean, readable article body —
+        no boilerplate, no ads, no markup.</p>
+        <a href="{{ site.docs_url }}" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
       </div>
-      <div class="two-thirds column sm-full">
-        <img id='browser' src='{{ "/images/demo.png" | prepend: site.baseurl }}'>
+      <div class="feature">
+        <span class="endpoint">GET /ner</span>
+        <h3>Identify important entities</h3>
+        <p>Submit plain text and get named entities back with their labels and
+        exact character positions.</p>
+        <a href="{{ site.api_base }}/ner?text=Apple%20is%20looking%20at%20buying%20a%20U.K.%20startup%20for%20%241%20billion" target="_blank" rel="noopener">See a live response &rarr;</a>
+      </div>
+      <div class="feature">
+        <span class="endpoint">GET /sentiment</span>
+        <h3>Gauge sentiment</h3>
+        <p>Instant insight into how the authors of reviews, tickets, and
+        comments actually feel.</p>
+        <a href="{{ site.api_base }}/sentiment?text=I%20love%20this%20product" target="_blank" rel="noopener">See a live response &rarr;</a>
+      </div>
+      <div class="feature">
+        <span class="endpoint">GET /qa</span>
+        <h3>Ask questions of any text</h3>
+        <p>Supply context — or just a URL — plus a question, and get an
+        extractive answer with its confidence score.</p>
+        <a href="{{ site.docs_url }}" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
+      </div>
+      <div class="feature">
+        <span class="endpoint">GET /ner/display</span>
+        <h3>Visualize entities instantly</h3>
+        <p>Render highlighted entity tags as SVG or HTML — bring your own spans
+        or let the API find them.</p>
+        <a href="{{ site.api_base }}/ner/display?text=Apple%20is%20looking%20at%20buying%20a%20U.K.%20startup%20for%20%241%20billion&format=html" target="_blank" rel="noopener">See a live render &rarr;</a>
+      </div>
+      <div class="feature">
+        <span class="endpoint">POST /*</span>
+        <h3>Prototype fast, graduate later</h3>
+        <p>Ship your product on TextAPI from any language, then move to spaCy —
+        the library underneath — when you outgrow it.</p>
+        <a href="{{ site.docs_url }}" target="_blank" rel="noopener">Browse all endpoints &rarr;</a>
       </div>
     </div>
   </div>
-</div>
-<!--
-<div class="fluffy container">
-  <div class="columns">
-    <div class="four-fifths column centered">
-      <strong>Early Access Discounted Pricing.</strong>
-      Pricing plans for those willing to take the journey with us. <a class="btn btn-outline" href="https://market.mashape.com/textapi/textapi/pricing">Go Here</a>
+</section>
+
+<section class="snippets">
+  <div class="container">
+    <h2 class="section-title">Works from any language</h2>
+    <p class="section-sub">If it can make an HTTP request, it can use TextAPI.</p>
+    <div class="snippet-card">
+      <div class="snippet-tabs" role="tablist">
+        <button class="snippet-tab active" data-tab="curl" role="tab">curl</button>
+        <button class="snippet-tab" data-tab="python" role="tab">Python</button>
+        <button class="snippet-tab" data-tab="js" role="tab">JavaScript</button>
+      </div>
+      <pre class="snippet-pane active" data-pane="curl"><code>curl "{{ site.api_base }}/ner?text=Apple+is+buying+a+U.K.+startup"
+
+<span class="t-out">{"spans": [{"text": "Apple", "start": 0, "end": 5, "label": "ORG"},
+           {"text": "U.K.", "start": 19, "end": 23, "label": "GPE"}]}</span></code></pre>
+      <pre class="snippet-pane" data-pane="python"><code>import requests
+
+r = requests.get("{{ site.api_base }}/ner",
+                 params={"text": "Apple is buying a U.K. startup"})
+print(r.json()["spans"])</code></pre>
+      <pre class="snippet-pane" data-pane="js"><code>const res = await fetch("{{ site.api_base }}/ner?text=" +
+  encodeURIComponent("Apple is buying a U.K. startup"));
+const { spans } = await res.json();</code></pre>
     </div>
+    <p class="snippet-note">Metered keys route through the APIDirectory gateway —
+    your endpoint and code samples are on the
+    <a href="{{ site.store_url }}" target="_blank" rel="noopener">storefront</a>.</p>
   </div>
-</div>
--->
-<div class='divider'></div>
-<div class="container about-that">
-  <div class="columns">
-    <div class="one-third column">
-      <h2>Identify Important Entities</h2>
-      <p>Submit your plain text, and get back the named entities, and their positions returned.</p>
-      <p class="text-center">
-      <a href="https://rapidapi.com/textapi/api/textapi?endpoint=5718591fe4b0a49fce9cbb72" class="btn btn-outline">See Here</a>
-    </p>
+</section>
+
+<section class="home-articles">
+  <div class="container">
+    <h2 class="section-title">Guides &amp; how-tos</h2>
+    <p class="section-sub">Short, specific walkthroughs built around code you can paste into a project today.</p>
+    <div class="article-grid">
+      {% for post in site.posts limit: 3 %}
+      <a class="article-card" href="{{ post.url }}">
+        <span class="article-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.summary }}</p>
+        <span class="article-more">Read the guide &rarr;</span>
+      </a>
+      {% endfor %}
     </div>
-    <div class="one-third column">
-      <h2>Display Entities</h2>
-      <p>Bring your own entities, and display their tags within text to show within a UI.</p>
-      <p class="text-center">
-      <a href="https://rapidapi.com/textapi/api/textapi?endpoint=571858b0e4b01e9dae573b79" class="btn btn-outline">See Here</a>
-    </p>
-    </div>
-    <div class="one-third column">
-      <h2>Gauge Sentiment</h2>
-      <p>Get automatic insight into the sentiment of the authors of reviews of your restaurant or product.</p>
-      <p class="text-center">
-      <a href="https://rapidapi.com/textapi/api/textapi?endpoint=apiendpoint_aeef7628-8765-4246-b1b7-a5f2336721ef" class="btn btn-outline">See Here</a>
-    </p>
-    </div>
+    <p class="article-all"><a href="/blog/">All articles &rarr;</a></p>
   </div>
-  <div class="columns">
-    <div class="one-third column">
-      <h2>Extract Text from Webpages</h2>
-      <p>You are give the power to pull text from your images with a single API call.</p>
-      <p class="text-center">
-      <a href="https://rapidapi.com/textapi/api/textapi?endpoint=apiendpoint_566f44f2-25ea-474e-8209-4ca011011697" class="btn btn-outline">See Here</a>
-    </p>
-    </div>
-    <div class="one-third column">
-      <h2>Enable Rapid Prototypes</h2>
-      <p>Build our your product using our APIs, and move on to tools such as SpaCy which our API is built from.</p>
-      <p class="text-center">
-      <a href="https://rapidapi.com/textapi/api/textapi" class="btn btn-outline">See Here</a>
-    </p>
-    </div>
-    <div class="one-third column">
-      <h2>Display Entities Instantly</h2>
-      <p>Supply plain text, and instantly visualize the important entities.</p>
-      <p class="text-center">
-      <a href="https://rapidapi.com/textapi/api/textapi?endpoint=5718591fe4b0a49fce9cbb72" class="btn btn-outline">See Here</a>
-    </p>
-    </div>
+</section>
+
+<section class="pricing">
+  <div class="container pricing-inner">
+    <h2>Simple, metered pricing</h2>
+    <p>Keys are issued instantly through our storefront on APIDirectory.
+    You pay per request with monthly metered billing — no tiers to pick,
+    no minimum commitment, cancel any month.</p>
+    <a class="btn btn-primary" href="{{ site.store_url }}" target="_blank" rel="noopener">See pricing &amp; get a key &rarr;</a>
+    <p class="pricing-alt">Prefer one key across many APIs? TextAPI also sells
+    through the <a href="{{ site.listing_url }}" target="_blank" rel="noopener">APIDirectory registry gateway</a>.</p>
   </div>
-</div>
+</section>
+
+<section class="faq">
+  <div class="container faq-inner">
+    <h2 class="section-title">Questions, answered</h2>
+    <details>
+      <summary>How is TextAPI billed?</summary>
+      <p>Through our storefront on APIDirectory, backed by Stripe. Billing is
+      metered: every request counts, you get one invoice a month for exactly
+      what you used, and you can cancel any month. No tiers, no seats, no
+      minimums.</p>
+    </details>
+    <details>
+      <summary>How do I get an API key?</summary>
+      <p>Instantly — subscribe on the
+      <a href="{{ site.store_url }}" target="_blank" rel="noopener">storefront</a>
+      and your key is issued and emailed the moment checkout completes.</p>
+    </details>
+    <details>
+      <summary>Can I try it before subscribing?</summary>
+      <p>Yes. The demo at the top of this page runs against the real API, the
+      feature cards link to live responses, and every endpoint can be exercised
+      from the <a href="{{ site.docs_url }}" target="_blank" rel="noopener">interactive docs</a>.</p>
+    </details>
+    <details>
+      <summary>What counts as a request?</summary>
+      <p>Each API call made with your key counts as one metered request,
+      whichever endpoint it hits.</p>
+    </details>
+  </div>
+</section>
+
+<script>
+(function () {
+  var API = "{{ site.api_base }}";
+  var COLORS = { ORG: "org", PERSON: "person", GPE: "gpe", LOC: "gpe",
+                 MONEY: "money", DATE: "date", TIME: "date", PERCENT: "money",
+                 PRODUCT: "product", EVENT: "product", NORP: "person" };
+
+  function esc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function highlight(text, spans) {
+    spans = spans.slice().sort(function (a, b) { return a.start - b.start; });
+    var out = "", pos = 0;
+    spans.forEach(function (sp) {
+      if (sp.start < pos) return; // skip overlaps
+      out += esc(text.slice(pos, sp.start));
+      var cls = COLORS[sp.label] || "other";
+      out += '<mark class="ent ent-' + cls + '">' + esc(text.slice(sp.start, sp.end)) +
+             "<span>" + esc(sp.label) + "</span></mark>";
+      pos = sp.end;
+    });
+    out += esc(text.slice(pos));
+    return out;
+  }
+
+  function sentimentChip(s) {
+    var cls = s.compound >= 0.05 ? "sent-pos" : s.compound <= -0.05 ? "sent-neg" : "sent-neu";
+    var label = cls === "sent-pos" ? "Positive" : cls === "sent-neg" ? "Negative" : "Neutral";
+    return '<span class="sent-chip ' + cls + '">' + label + "</span> " +
+           '<span class="sent-detail">compound ' + s.compound.toFixed(2) +
+           " &middot; pos " + s.pos.toFixed(2) + " &middot; neu " + s.neu.toFixed(2) +
+           " &middot; neg " + s.neg.toFixed(2) + "</span>";
+  }
+
+  var form = document.getElementById("demo-form");
+  var input = document.getElementById("demo-input");
+  var out = document.getElementById("demo-out");
+  var note = document.getElementById("demo-note");
+  var btn = document.getElementById("demo-btn");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = input.value.trim();
+    if (!text) return;
+    btn.disabled = true;
+    btn.textContent = "…";
+    var q = "?text=" + encodeURIComponent(text);
+    Promise.all([
+      fetch(API + "/ner" + q).then(function (r) { if (!r.ok) throw 0; return r.json(); }),
+      fetch(API + "/sentiment" + q).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    ]).then(function (res) {
+      out.innerHTML = '<p class="demo-text">' + highlight(text, res[0].spans || []) + "</p>" +
+                      '<div class="demo-sentiment">' + sentimentChip(res[1]) + "</div>";
+      note.textContent = "Runs against the real API at use.textapi.com — no key needed for this demo.";
+    }).catch(function () {
+      note.textContent = "The live demo is unreachable right now — try the interactive docs instead.";
+    }).finally(function () {
+      btn.disabled = false;
+      btn.textContent = "Analyze";
+    });
+  });
+
+  document.querySelectorAll(".snippet-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      document.querySelectorAll(".snippet-tab").forEach(function (t) { t.classList.remove("active"); });
+      document.querySelectorAll(".snippet-pane").forEach(function (p) { p.classList.remove("active"); });
+      tab.classList.add("active");
+      document.querySelector('.snippet-pane[data-pane="' + tab.dataset.tab + '"]').classList.add("active");
+    });
+  });
+})();
+</script>

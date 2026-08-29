@@ -1,6 +1,7 @@
-<nav class="masthead-nav">
-  <a {% if page.title && page.title=="About" %}class="active"{% endif %} href="/about">About</a>
-  <a target="_blank" href="https://rapidapi.com/textapi/api/textapi">Docs</a>
-  <a href="https://rapidapi.com/textapi/api/textapi/pricing" target="_blank">Pricing</a>
-  <a target="_blank" href="https://rapidapi.com/textapi/api/textapi/tutorials" target="_blank">Examples</a>
+<nav class="site-nav">
+  <a {% if page.title == "Articles" or page.layout == "post" %}class="active" {% endif %}href="/blog/">Articles</a>
+  <a {% if page.title == "About" %}class="active" {% endif %}href="/about">About</a>
+  <a href="{{ site.docs_url }}" target="_blank" rel="noopener">Docs</a>
+  <a href="{{ site.store_url }}" target="_blank" rel="noopener">Pricing</a>
+  <a class="nav-cta" href="{{ site.store_url }}" target="_blank" rel="noopener">Get an API key</a>
 </nav>

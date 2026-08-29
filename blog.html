@@ -1,0 +1,28 @@
+---
+layout: default
+title: Articles
+permalink: /blog/
+seo_title: "TextAPI Articles — NLP How-Tos for Developers"
+description: "Practical how-to guides for text extraction, named-entity recognition, sentiment analysis, and question answering — with working code you can paste into a project today."
+---
+<section class="page">
+  <div class="container page-inner">
+    <h1>Articles</h1>
+    <p class="lede">Practical guides to text extraction, entities, sentiment, and
+    question answering — each one short, specific, and built around code you can
+    paste into a project today.</p>
+
+    <ul class="post-list">
+      {% for post in site.posts %}
+      <li>
+        <a class="post-list-title" href="{{ post.url }}">{{ post.title }}</a>
+        <p class="post-list-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+          {% if post.reading_time %} &middot; {{ post.reading_time }} min read{% endif %}
+        </p>
+        <p class="post-list-summary">{{ post.summary }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

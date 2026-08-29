@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head.html %}
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="container masthead-inner">
+        <a href="/" class="wordmark">Text<span class="accent">API</span></a>
+        {% include nav.html %}
+      </div>
+    </header>
+
+    <article class="post">
+      <div class="container post-inner">
+        <p class="post-crumb"><a href="/blog/">&larr; All articles</a></p>
+        <h1>{{ page.title }}</h1>
+        <p class="post-meta">
+          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+          {% if page.reading_time %} &middot; {{ page.reading_time }} min read{% endif %}
+        </p>
+        {% if page.summary %}<p class="lede">{{ page.summary }}</p>{% endif %}
+
+        <div class="post-body">
+          {{ content }}
+        </div>
+
+        <aside class="post-cta">
+          <h3>Try it on your own text</h3>
+          <p>Every endpoint in this article is live in the
+          <a href="{{ site.docs_url }}" target="_blank" rel="noopener">interactive docs</a>.
+          When you're ready for production, keys are issued instantly from the
+          <a href="{{ site.store_url }}" target="_blank" rel="noopener">TextAPI storefront</a> —
+          metered billing, no plans, cancel anytime.</p>
+          <a class="btn btn-primary" href="{{ site.store_url }}" target="_blank" rel="noopener">Get an API key &rarr;</a>
+        </aside>
+
+        {% assign related = site.posts | where_exp: "p", "p.url != page.url" %}
+        {% if related.size > 0 %}
+        <section class="post-related">
+          <h3>Keep reading</h3>
+          <ul>
+            {% for p in related limit: 3 %}
+            <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+      </div>
+    </article>
+
+    {% include footer.html %}
+  </body>
+</html>
