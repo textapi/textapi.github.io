@@ -17,7 +17,8 @@ its content differently, and the markup changes without warning. The
 ## The one-call version
 
 ```bash
-curl "https://use.textapi.com/text?url=https://en.wikipedia.org/wiki/Natural_language_processing"
+curl "https://api.textapi.com/text?url=https://en.wikipedia.org/wiki/Natural_language_processing" \
+  -H "X-API-Key: $TEXTAPI_API_KEY"
 ```
 
 You get back a single JSON field:
@@ -38,11 +39,15 @@ body**. That separator is worth knowing, because it means you can split the
 title back off when you need it:
 
 ```python
+import os
 import requests
 
+HEADERS = {"X-API-Key": os.environ["TEXTAPI_API_KEY"]}
+
 r = requests.get(
-    "https://use.textapi.com/text",
+    "https://api.textapi.com/text",
     params={"url": "https://en.wikipedia.org/wiki/Natural_language_processing"},
+    headers=HEADERS,
 )
 title, _, body = r.json()["text"].partition(" : ")
 
@@ -54,8 +59,9 @@ In JavaScript:
 
 ```js
 const res = await fetch(
-  "https://use.textapi.com/text?url=" +
-    encodeURIComponent("https://en.wikipedia.org/wiki/Natural_language_processing")
+  "https://api.textapi.com/text?url=" +
+    encodeURIComponent("https://en.wikipedia.org/wiki/Natural_language_processing"),
+  { headers: { "X-API-Key": process.env.TEXTAPI_API_KEY } }
 );
 const { text } = await res.json();
 const [title, ...rest] = text.split(" : ");
@@ -72,7 +78,8 @@ Query strings have practical length limits, and URLs with many parameters need
 careful escaping. The `POST` form takes JSON and behaves identically:
 
 ```bash
-curl -X POST "https://use.textapi.com/text" \
+curl -X POST "https://api.textapi.com/text" \
+  -H "X-API-Key: $TEXTAPI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://en.wikipedia.org/wiki/Natural_language_processing"}'
 ```
@@ -100,7 +107,7 @@ public hosts.
 A reasonable guard in production:
 
 ```python
-resp = requests.get("https://use.textapi.com/text", params={"url": url})
+resp = requests.get("https://api.textapi.com/text", params={"url": url}, headers=HEADERS)
 
 if resp.status_code != 200:
     raise RuntimeError(f"extraction failed: {resp.json().get('detail')}")
@@ -118,11 +125,11 @@ endpoints take it directly:
 
 ```python
 text = requests.get(
-    "https://use.textapi.com/text", params={"url": url}
+    "https://api.textapi.com/text", params={"url": url}, headers=HEADERS
 ).json()["text"]
 
 entities = requests.get(
-    "https://use.textapi.com/ner", params={"text": text[:5000]}
+    "https://api.textapi.com/ner", params={"text": text[:5000]}, headers=HEADERS
 ).json()["spans"]
 ```
 

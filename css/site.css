@@ -161,20 +161,20 @@ a:hover { text-decoration: underline; }
   color: var(--ink-soft);
   margin-bottom: 12px;
 }
-.demo-input-row { display: flex; gap: 8px; }
-.demo-input-row input {
-  flex: 1;
-  min-width: 0;
+.demo-examples { display: flex; gap: 6px; flex-wrap: wrap; }
+.demo-ex {
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.92rem;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 0.85rem;
   font-family: inherit;
-  color: var(--ink);
+  color: var(--ink-soft);
   background: var(--paper);
+  cursor: pointer;
 }
-.demo-input-row input:focus { outline: 2px solid var(--accent); border-color: transparent; }
-.demo-input-row .btn { padding: 10px 16px; font-size: 0.92rem; }
+.demo-ex:hover { border-color: var(--ink-soft); }
+.demo-ex:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.demo-ex.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .demo-text { margin: 16px 0 12px; font-size: 1rem; line-height: 2; }
 .ent {
   border-radius: 6px;
@@ -322,7 +322,10 @@ a:hover { text-decoration: underline; }
   color: var(--ink-soft);
   font-size: 0.95rem;
 }
-.faq code { font-family: var(--mono); font-size: 0.85em; }
+.faq code, .demo-note code, .snippet-note code, .post-keynote code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
 
 /* Home: article teasers */
 .home-articles { padding: 56px 0 64px; }
@@ -390,6 +393,15 @@ a:hover { text-decoration: underline; }
   margin-bottom: 18px;
 }
 .post .lede { margin-bottom: 8px; }
+.post-keynote {
+  margin-top: 22px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: rgba(59, 99, 196, 0.06);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+.post-keynote a { text-decoration: underline; }
 
 .post-body { margin-top: 30px; }
 .post-body h2 {

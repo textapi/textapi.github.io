@@ -9,7 +9,8 @@ reading_time: 6
 Sentiment scoring is the rare NLP task with an honest one-line answer:
 
 ```bash
-curl -G "https://use.textapi.com/sentiment" \
+curl -G "https://api.textapi.com/sentiment" \
+  -H "X-API-Key: $TEXTAPI_API_KEY" \
   --data-urlencode "text=Absolutely love this product, works perfectly!"
 ```
 
@@ -41,7 +42,10 @@ def label(compound):
 Scoring a batch of reviews:
 
 ```python
+import os
 import requests
+
+HEADERS = {"X-API-Key": os.environ["TEXTAPI_API_KEY"]}
 
 reviews = [
     "The delivery was great",
@@ -51,7 +55,7 @@ reviews = [
 
 for review in reviews:
     scores = requests.get(
-        "https://use.textapi.com/sentiment", params={"text": review}
+        "https://api.textapi.com/sentiment", params={"text": review}, headers=HEADERS
     ).json()
     print(f"{scores['compound']:+.4f}  {label(scores['compound']):8}  {review}")
 ```
@@ -124,13 +128,15 @@ There's no bulk endpoint, so concurrency is how you go fast. Keep it modest and
 reuse the connection:
 
 ```python
+import os
 import requests
 from concurrent.futures import ThreadPoolExecutor
 
 session = requests.Session()
+session.headers["X-API-Key"] = os.environ["TEXTAPI_API_KEY"]
 
 def score(review):
-    r = session.get("https://use.textapi.com/sentiment", params={"text": review})
+    r = session.get("https://api.textapi.com/sentiment", params={"text": review})
     r.raise_for_status()
     return review, r.json()["compound"]
 

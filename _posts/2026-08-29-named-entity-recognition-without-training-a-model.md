@@ -13,7 +13,8 @@ money?* Training a model for it is a project. Calling one is a line of code.
 ## One call, structured output
 
 ```bash
-curl -G "https://use.textapi.com/ner" \
+curl -G "https://api.textapi.com/ner" \
+  -H "X-API-Key: $TEXTAPI_API_KEY" \
   --data-urlencode "text=Satya Nadella said Microsoft will invest \$10 billion in OpenAI next January"
 ```
 
@@ -38,11 +39,14 @@ Four facts from one sentence, each with a type and a position.
 what makes highlighting reliable:
 
 ```python
+import os
 import requests
 
 text = "Satya Nadella said Microsoft will invest $10 billion in OpenAI next January"
 spans = requests.get(
-    "https://use.textapi.com/ner", params={"text": text}
+    "https://api.textapi.com/ner",
+    params={"text": text},
+    headers={"X-API-Key": os.environ["TEXTAPI_API_KEY"]},
 ).json()["spans"]
 
 # Rebuild the string with <mark> tags around each entity.
@@ -83,7 +87,8 @@ Also present: `TIME`, `PERCENT`, `QUANTITY`, `ORDINAL`, `EVENT`, `WORK_OF_ART`,
 The default is the small model. Pass `model=en_core_web_lg` for the large one:
 
 ```bash
-curl -G "https://use.textapi.com/ner" \
+curl -G "https://api.textapi.com/ner" \
+  -H "X-API-Key: $TEXTAPI_API_KEY" \
   --data-urlencode "text=Satya Nadella said Microsoft will invest \$10 billion in OpenAI next January" \
   --data-urlencode "model=en_core_web_lg"
 ```
@@ -105,7 +110,8 @@ If the end goal is showing highlighted text to a human rather than processing
 spans in code, `/ner/display` skips a step and returns rendered markup:
 
 ```bash
-curl "https://use.textapi.com/ner/display?text=Apple+hired+Jane+Doe+in+Paris&format=html"
+curl "https://api.textapi.com/ner/display?text=Apple+hired+Jane+Doe+in+Paris&format=html" \
+  -H "X-API-Key: $TEXTAPI_API_KEY"
 ```
 
 `format=svg` (the default) returns an inline fragment you can drop into an

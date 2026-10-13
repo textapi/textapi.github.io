@@ -14,7 +14,8 @@ substring of what you gave it.
 ## Question plus context
 
 ```bash
-curl -G "https://use.textapi.com/qa" \
+curl -G "https://api.textapi.com/qa" \
+  -H "X-API-Key: $TEXTAPI_API_KEY" \
   --data-urlencode "question=What is the refund window?" \
   --data-urlencode "context=Our return policy allows refunds within 30 days of delivery. Shipping fees are non-refundable."
 ```
@@ -34,7 +35,8 @@ to the reader than the answer string itself.
 for you:
 
 ```bash
-curl -X POST "https://use.textapi.com/qa" \
+curl -X POST "https://api.textapi.com/qa" \
+  -H "X-API-Key: $TEXTAPI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "question": "When was the first machine translation experiment?",
@@ -79,20 +81,25 @@ The root cause above is context length. Extractive QA degrades as context grows
 Scope the context and the same question is answered correctly:
 
 ```python
+import os
 import requests
 
+HEADERS = {"X-API-Key": os.environ["TEXTAPI_API_KEY"]}
+
 article = requests.get(
-    "https://use.textapi.com/text",
+    "https://api.textapi.com/text",
     params={"url": "https://en.wikipedia.org/wiki/Natural_language_processing"},
+    headers=HEADERS,
 ).json()["text"]
 
 # Answer against the opening section, not the reference list.
 answer = requests.post(
-    "https://use.textapi.com/qa",
+    "https://api.textapi.com/qa",
     json={
         "question": "When was the first machine translation experiment?",
         "context": article[:4000],
     },
+    headers=HEADERS,
 ).json()
 ```
 
@@ -120,9 +127,9 @@ job:
 ```python
 MIN_SCORE = 0.30
 
-result = requests.get("https://use.textapi.com/qa", params={
+result = requests.get("https://api.textapi.com/qa", params={
     "question": question, "context": context,
-}).json()
+}, headers=HEADERS).json()
 
 if result["score"] < MIN_SCORE:
     answer = None          # show search results instead of a wrong answer

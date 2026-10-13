@@ -21,6 +21,10 @@
         </p>
         {% if page.summary %}<p class="lede">{{ page.summary }}</p>{% endif %}
 
+        <p class="post-keynote">The examples call <code>{{ site.api_base }}</code> with your key in
+        the <code>X-API-Key</code> header, read here from <code>TEXTAPI_API_KEY</code>.
+        <a href="{{ site.store_url }}" target="_blank" rel="noopener">Get a free key</a>.</p>
+
         <div class="post-body">
           {{ content }}
         </div>

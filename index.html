@@ -18,13 +18,13 @@ layout: default
     </div>
     <div class="hero-demo">
       <div class="demo-card">
-        <div class="demo-head">Live demo — entities &amp; sentiment</div>
-        <form id="demo-form" class="demo-input-row">
-          <input id="demo-input" type="text" maxlength="280" spellcheck="false"
-                 value="Apple is thrilled to be buying a promising U.K. startup for $1 billion"
-                 aria-label="Text to analyze">
-          <button type="submit" class="btn btn-primary" id="demo-btn">Analyze</button>
-        </form>
+        <div class="demo-head">Real responses — entities &amp; sentiment</div>
+        <div class="demo-examples" role="group" aria-label="Example texts">
+          <button type="button" class="demo-ex active" data-ex="0" aria-pressed="true">Deal</button>
+          <button type="button" class="demo-ex" data-ex="1" aria-pressed="false">News</button>
+          <button type="button" class="demo-ex" data-ex="2" aria-pressed="false">Review</button>
+          <button type="button" class="demo-ex" data-ex="3" aria-pressed="false">Concert</button>
+        </div>
         <div id="demo-out">
           <p class="demo-text">
             <mark class="ent ent-org">Apple<span>ORG</span></mark> is thrilled to be buying a promising
@@ -36,7 +36,8 @@ layout: default
             <span class="sent-detail">compound 0.68 &middot; pos 0.34 &middot; neu 0.66 &middot; neg 0.00</span>
           </div>
         </div>
-        <p class="demo-note" id="demo-note">Runs against the real API at use.textapi.com — no key needed for this demo.</p>
+        <p class="demo-note">Saved responses from <code>GET /ner</code> and <code>GET /sentiment</code>.
+        <a href="{{ site.store_url }}" target="_blank" rel="noopener">Get a free key</a> to run your own text.</p>
       </div>
     </div>
   </div>
@@ -51,35 +52,35 @@ layout: default
         <h3>Extract text from webpages</h3>
         <p>Point it at a URL and get back the clean, readable article body —
         no boilerplate, no ads, no markup.</p>
-        <a href="{{ site.docs_url }}" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
+        <a href="{{ site.docs_url }}#get-text" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
       </div>
       <div class="feature">
         <span class="endpoint">GET /ner</span>
         <h3>Identify important entities</h3>
         <p>Submit plain text and get named entities back with their labels and
         exact character positions.</p>
-        <a href="{{ site.api_base }}/ner?text=Apple%20is%20looking%20at%20buying%20a%20U.K.%20startup%20for%20%241%20billion" target="_blank" rel="noopener">See a live response &rarr;</a>
+        <a href="{{ site.docs_url }}#get-ner" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
       </div>
       <div class="feature">
         <span class="endpoint">GET /sentiment</span>
         <h3>Gauge sentiment</h3>
         <p>Instant insight into how the authors of reviews, tickets, and
         comments actually feel.</p>
-        <a href="{{ site.api_base }}/sentiment?text=I%20love%20this%20product" target="_blank" rel="noopener">See a live response &rarr;</a>
+        <a href="{{ site.docs_url }}#get-sentiment" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
       </div>
       <div class="feature">
         <span class="endpoint">GET /qa</span>
         <h3>Ask questions of any text</h3>
         <p>Supply context — or just a URL — plus a question, and get an
         extractive answer with its confidence score.</p>
-        <a href="{{ site.docs_url }}" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
+        <a href="{{ site.docs_url }}#get-qa" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
       </div>
       <div class="feature">
         <span class="endpoint">GET /ner/display</span>
         <h3>Visualize entities instantly</h3>
         <p>Render highlighted entity tags as SVG or HTML — bring your own spans
         or let the API find them.</p>
-        <a href="{{ site.api_base }}/ner/display?text=Apple%20is%20looking%20at%20buying%20a%20U.K.%20startup%20for%20%241%20billion&format=html" target="_blank" rel="noopener">See a live render &rarr;</a>
+        <a href="{{ site.docs_url }}#get-ner-display" target="_blank" rel="noopener">Try it in the docs &rarr;</a>
       </div>
       <div class="feature">
         <span class="endpoint">POST /*</span>
@@ -102,21 +103,25 @@ layout: default
         <button class="snippet-tab" data-tab="python" role="tab">Python</button>
         <button class="snippet-tab" data-tab="js" role="tab">JavaScript</button>
       </div>
-      <pre class="snippet-pane active" data-pane="curl"><code>curl "{{ site.api_base }}/ner?text=Apple+is+buying+a+U.K.+startup"
+      <pre class="snippet-pane active" data-pane="curl"><code>curl "{{ site.api_base }}/ner?text=Apple+is+buying+a+U.K.+startup" \
+  -H "X-API-Key: $TEXTAPI_API_KEY"
 
 <span class="t-out">{"spans": [{"text": "Apple", "start": 0, "end": 5, "label": "ORG"},
            {"text": "U.K.", "start": 19, "end": 23, "label": "GPE"}]}</span></code></pre>
-      <pre class="snippet-pane" data-pane="python"><code>import requests
+      <pre class="snippet-pane" data-pane="python"><code>import os
+import requests
 
 r = requests.get("{{ site.api_base }}/ner",
-                 params={"text": "Apple is buying a U.K. startup"})
+                 params={"text": "Apple is buying a U.K. startup"},
+                 headers={"X-API-Key": os.environ["TEXTAPI_API_KEY"]})
 print(r.json()["spans"])</code></pre>
       <pre class="snippet-pane" data-pane="js"><code>const res = await fetch("{{ site.api_base }}/ner?text=" +
-  encodeURIComponent("Apple is buying a U.K. startup"));
+  encodeURIComponent("Apple is buying a U.K. startup"),
+  { headers: { "X-API-Key": process.env.TEXTAPI_API_KEY } });
 const { spans } = await res.json();</code></pre>
     </div>
-    <p class="snippet-note">Metered keys route through the developers.textapi.com gateway —
-    your endpoint and code samples are on the
+    <p class="snippet-note">Every call goes to api.textapi.com with your key in the
+    <code>X-API-Key</code> header — get one, plus code samples for every endpoint, on the
     <a href="{{ site.store_url }}" target="_blank" rel="noopener">storefront</a>.</p>
   </div>
 </section>
@@ -169,9 +174,9 @@ const { spans } = await res.json();</code></pre>
     </details>
     <details>
       <summary>Can I try it before subscribing?</summary>
-      <p>Yes. The demo at the top of this page runs against the real API, the
-      feature cards link to live responses, and every endpoint can be exercised
-      from the <a href="{{ site.docs_url }}" target="_blank" rel="noopener">interactive docs</a>.</p>
+      <p>Yes. The storefront issues a free key (1,000 requests a month), and
+      every endpoint can be exercised from the
+      <a href="{{ site.docs_url }}" target="_blank" rel="noopener">interactive docs</a>.</p>
     </details>
     <details>
       <summary>What counts as a request?</summary>
@@ -183,7 +188,14 @@ const { spans } = await res.json();</code></pre>
 
 <script>
 (function () {
-  var API = "{{ site.api_base }}";
+  // Real /ner and /sentiment responses (en_core_web_sm), saved so the page
+  // needs no key: the API answers only keyed calls through api.textapi.com.
+  var EXAMPLES = [
+    {"text": "Apple is thrilled to be buying a promising U.K. startup for $1 billion", "spans": [{"text": "Apple", "start": 0, "end": 5, "label": "ORG"}, {"text": "U.K.", "start": 43, "end": 47, "label": "GPE"}, {"text": "$1 billion", "start": 60, "end": 70, "label": "MONEY"}], "sentiment": {"neg": 0.0, "neu": 0.663, "pos": 0.337, "compound": 0.6808}},
+    {"text": "Satya Nadella told reporters in Seattle on Tuesday that Microsoft will open three new data centers in Ireland.", "spans": [{"text": "Satya Nadella", "start": 0, "end": 13, "label": "PERSON"}, {"text": "Seattle", "start": 32, "end": 39, "label": "GPE"}, {"text": "Tuesday", "start": 43, "end": 50, "label": "DATE"}, {"text": "Microsoft", "start": 56, "end": 65, "label": "ORG"}, {"text": "three", "start": 76, "end": 81, "label": "CARDINAL"}, {"text": "Ireland", "start": 102, "end": 109, "label": "GPE"}], "sentiment": {"neg": 0.0, "neu": 1.0, "pos": 0.0, "compound": 0.0}},
+    {"text": "The battery on my new Pixel died after two days, and Google support never called me back.", "spans": [{"text": "Pixel", "start": 22, "end": 27, "label": "ORG"}, {"text": "two days", "start": 39, "end": 47, "label": "DATE"}, {"text": "Google", "start": 53, "end": 59, "label": "ORG"}], "sentiment": {"neg": 0.169, "neu": 0.704, "pos": 0.127, "compound": -0.2263}},
+    {"text": "Taylor Swift sold out Wembley Stadium in London for eight nights, and fans loved every minute.", "spans": [{"text": "Taylor Swift", "start": 0, "end": 12, "label": "PERSON"}, {"text": "Wembley Stadium", "start": 22, "end": 37, "label": "FAC"}, {"text": "London", "start": 41, "end": 47, "label": "GPE"}, {"text": "eight nights", "start": 52, "end": 64, "label": "DATE"}, {"text": "every minute", "start": 81, "end": 93, "label": "TIME"}], "sentiment": {"neg": 0.0, "neu": 0.711, "pos": 0.289, "compound": 0.6908}}
+  ];
   var COLORS = { ORG: "org", PERSON: "person", GPE: "gpe", LOC: "gpe",
                  MONEY: "money", DATE: "date", TIME: "date", PERCENT: "money",
                  PRODUCT: "product", EVENT: "product", NORP: "person" };
@@ -216,31 +228,17 @@ const { spans } = await res.json();</code></pre>
            " &middot; neg " + s.neg.toFixed(2) + "</span>";
   }
 
-  var form = document.getElementById("demo-form");
-  var input = document.getElementById("demo-input");
   var out = document.getElementById("demo-out");
-  var note = document.getElementById("demo-note");
-  var btn = document.getElementById("demo-btn");
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var text = input.value.trim();
-    if (!text) return;
-    btn.disabled = true;
-    btn.textContent = "…";
-    var q = "?text=" + encodeURIComponent(text);
-    Promise.all([
-      fetch(API + "/ner" + q).then(function (r) { if (!r.ok) throw 0; return r.json(); }),
-      fetch(API + "/sentiment" + q).then(function (r) { if (!r.ok) throw 0; return r.json(); })
-    ]).then(function (res) {
-      out.innerHTML = '<p class="demo-text">' + highlight(text, res[0].spans || []) + "</p>" +
-                      '<div class="demo-sentiment">' + sentimentChip(res[1]) + "</div>";
-      note.textContent = "Runs against the real API at use.textapi.com — no key needed for this demo.";
-    }).catch(function () {
-      note.textContent = "The live demo is unreachable right now — try the interactive docs instead.";
-    }).finally(function () {
-      btn.disabled = false;
-      btn.textContent = "Analyze";
+  document.querySelectorAll(".demo-ex").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var ex = EXAMPLES[+btn.dataset.ex];
+      document.querySelectorAll(".demo-ex").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+      out.innerHTML = '<p class="demo-text">' + highlight(ex.text, ex.spans) + "</p>" +
+                      '<div class="demo-sentiment">' + sentimentChip(ex.sentiment) + "</div>";
     });
   });
 
